@@ -1,13 +1,22 @@
 package com.example.DemoServiceSpring.Model;
 
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "locatel_scrapyweblocatel")
 public class ScrapyWebLocatel {
-    
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
+        
         private String nombre;
         private Double precio;
         private String url;
