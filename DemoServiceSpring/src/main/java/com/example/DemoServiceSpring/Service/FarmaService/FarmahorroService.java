@@ -1,43 +1,46 @@
-package com.example.DemoServiceSpring.Service;
+package com.example.DemoServiceSpring.Service.FarmaService;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.DemoServiceSpring.Model.ScrapyWebFarmaciasas;
-import com.example.DemoServiceSpring.Repository.FarmaciasasRepository;
+import com.example.DemoServiceSpring.Model.ScrapyWebFarmahorro;
+import com.example.DemoServiceSpring.Repository.FarmahorroRepository;
+import com.example.DemoServiceSpring.Service.DjangoService.DjangoDRFService;
+import com.example.DemoServiceSpring.Service.Enum.FarmaEnum;
+
 
 @Service
-public class FarmaciasasService {
-    
-    private final FarmaciasasRepository farmaciasasRepository;
+public class FarmahorroService {
 
-    private final DjangoService djangoService;
     
-    public FarmaciasasService(DjangoService djangoService, FarmaciasasRepository farmaciasasRepository) {
-        this.farmaciasasRepository = farmaciasasRepository;
+    private final FarmahorroRepository farmahorroRepository;
+    private final DjangoDRFService djangoService;
+    
+    public FarmahorroService(DjangoDRFService djangoService, FarmahorroRepository farmahorroRepository) {
+        this.farmahorroRepository = farmahorroRepository;
         this.djangoService = djangoService;
     }
     
-    public List<ScrapyWebFarmaciasas> getProductos(){
+    public List<ScrapyWebFarmahorro> getProductos(){
         // Llamar FarmatodoRepository para buscar el producto por el nombre
-        return farmaciasasRepository.findAll();
+        return farmahorroRepository.findAll();
     }
 
-    public List<ScrapyWebFarmaciasas> buscarPorNombre(String nombre) {
+    public List<ScrapyWebFarmahorro> buscarPorNombre(String nombre) {
         // Llamar FarmatodoRepository para buscar el producto por semejanza de nombre en la base de datos
-        return farmaciasasRepository.findByNombreContaining(nombre);
+        return farmahorroRepository.findByNombreContaining(nombre);
     }
 
-    public List<ScrapyWebFarmaciasas> existenciaPorNombre(String nombre) {
+    public List<ScrapyWebFarmahorro> existenciaPorNombre(String nombre) {
         // Validar si el producto existe en la base de datos
-        List<ScrapyWebFarmaciasas> productos = farmaciasasRepository.findByNombreContaining(nombre);
+        List<ScrapyWebFarmahorro> productos = farmahorroRepository.findByNombreContaining(nombre);
         if (productos.isEmpty()) {
             // Si no existe, enviar el nombre del producto a la API Django
-            djangoService.enviarNombreProducto(nombre);
+            djangoService.enviarNombreProducto(nombre, FarmaEnum.FARMAHORRO);
             // Consultar nuevamente la base de datos
-            productos = farmaciasasRepository.findByNombreContaining(nombre);
+            productos = farmahorroRepository.findByNombreContaining(nombre);
             // Verificar si el producto fue agregado a la base de datos
             return productos;
         }else {
@@ -52,9 +55,9 @@ public class FarmaciasasService {
             if (!fechaRegistro.equals(fechaActual)) {
                 // Si son distintos, se debe actualizar el registro
                 // Llamar a la API Django para actualizar el registro
-                djangoService.enviarNombreProducto(nombre);
+                djangoService.enviarNombreProducto(nombre, FarmaEnum.FARMAHORRO);
                 // Consultar nuevamente la base de datos
-                productos = farmaciasasRepository.findByNombreContaining(nombre);
+                productos = farmahorroRepository.findByNombreContaining(nombre);
             }
             // Si existe, devolver la lista de productos encontrados
             return productos;

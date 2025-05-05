@@ -1,4 +1,4 @@
-package com.example.DemoServiceSpring.Service;
+package com.example.DemoServiceSpring.Service.FarmaService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.DemoServiceSpring.Model.ScrapyWebFarmabien;
 import com.example.DemoServiceSpring.Repository.FarmabienRepository;
+import com.example.DemoServiceSpring.Service.DjangoService.DjangoDRFService;
+import com.example.DemoServiceSpring.Service.Enum.FarmaEnum;
 
 @Service
 public class FarmabienService {
@@ -15,9 +17,9 @@ public class FarmabienService {
     // Inyeccion de dependencias de FarmabienController
     
     private final FarmabienRepository farmabienRepository;
-    private final DjangoService djangoService;
+    private final DjangoDRFService djangoService;
     
-    public FarmabienService(DjangoService djangoService, FarmabienRepository farmabienRepository) {
+    public FarmabienService(DjangoDRFService djangoService, FarmabienRepository farmabienRepository) {
         this.farmabienRepository = farmabienRepository;
         this.djangoService = djangoService;
     }
@@ -37,7 +39,7 @@ public class FarmabienService {
         List<ScrapyWebFarmabien> productos = farmabienRepository.findByNombreContaining(nombre);
         if (productos.isEmpty()) {
             // Si no existe, enviar el nombre del producto a la API Django
-            djangoService.enviarNombreProducto(nombre);
+            djangoService.enviarNombreProducto(nombre, FarmaEnum.FARMABIEN);
             // Consultar nuevamente la base de datos
             productos = farmabienRepository.findByNombreContaining(nombre);
             // Verificar si el producto fue agregado a la base de datos
@@ -54,7 +56,7 @@ public class FarmabienService {
             if (!fechaRegistro.equals(fechaActual)) {
                 // Si son distintos, se debe actualizar el registro
                 // Llamar a la API Django para actualizar el registro
-                djangoService.enviarNombreProducto(nombre);
+                djangoService.enviarNombreProducto(nombre, FarmaEnum.FARMABIEN);
                 // Consultar nuevamente la base de datos
                 productos = farmabienRepository.findByNombreContaining(nombre);
             }

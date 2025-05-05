@@ -1,4 +1,4 @@
-package com.example.DemoServiceSpring.Service;
+package com.example.DemoServiceSpring.Service.FarmaService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -7,15 +7,17 @@ import org.springframework.stereotype.Service;
 
 import com.example.DemoServiceSpring.Model.ScrapyWebLocatel;
 import com.example.DemoServiceSpring.Repository.LocatelRepository;
+import com.example.DemoServiceSpring.Service.DjangoService.DjangoDRFService;
+import com.example.DemoServiceSpring.Service.Enum.FarmaEnum;
 
 @Service
 public class LocatelService {
     
     
     private final LocatelRepository locatelRepository;
-    private final DjangoService djangoService;
+    private final DjangoDRFService djangoService;
     
-    public LocatelService(DjangoService djangoService, LocatelRepository locatelRepository) {
+    public LocatelService(DjangoDRFService djangoService, LocatelRepository locatelRepository) {
         this.locatelRepository = locatelRepository;
         this.djangoService = djangoService;
     }
@@ -35,7 +37,7 @@ public class LocatelService {
         List<ScrapyWebLocatel> productos = locatelRepository.findByNombreContaining(nombre);
         if (productos.isEmpty()) {
             // Si no existe, enviar el nombre del producto a la API Django
-            djangoService.enviarNombreProducto(nombre);
+            djangoService.enviarNombreProducto(nombre, FarmaEnum.LOCATEL);
             // Consultar nuevamente la base de datos
             productos = locatelRepository.findByNombreContaining(nombre);
             // Verificar si el producto fue agregado a la base de datos
@@ -52,7 +54,7 @@ public class LocatelService {
             if (!fechaRegistro.equals(fechaActual)) {
                 // Si son distintos, se debe actualizar el registro
                 // Llamar a la API Django para actualizar el registro
-                djangoService.enviarNombreProducto(nombre);
+                djangoService.enviarNombreProducto(nombre, FarmaEnum.LOCATEL);
                 // Consultar nuevamente la base de datos
                 productos = locatelRepository.findByNombreContaining(nombre);
             }

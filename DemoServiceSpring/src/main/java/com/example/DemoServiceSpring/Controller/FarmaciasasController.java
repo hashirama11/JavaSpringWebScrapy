@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.DemoServiceSpring.Model.ScrapyWebFarmaciasas;
-import com.example.DemoServiceSpring.Service.DjangoService;
-import com.example.DemoServiceSpring.Service.FarmaciasasService;
+import com.example.DemoServiceSpring.Service.DjangoService.DjangoDRFService;
+import com.example.DemoServiceSpring.Service.Enum.FarmaEnum;
+import com.example.DemoServiceSpring.Service.FarmaService.FarmaciasasService;
 
 
 @RestController
@@ -19,9 +20,9 @@ public class FarmaciasasController {
 
     // Inyeccion de dependencias de FarmaciasasController
     private final FarmaciasasService farmaciasasService;
-    private final DjangoService djangoService;
+    private final DjangoDRFService djangoService;
     
-    public FarmaciasasController(FarmaciasasService farmaciasasService, DjangoService djangoService) {
+    public FarmaciasasController(FarmaciasasService farmaciasasService, DjangoDRFService djangoService) {
         this.djangoService = djangoService;
         this.farmaciasasService = farmaciasasService;
     }
@@ -41,7 +42,7 @@ public class FarmaciasasController {
     // Endpoint para enviar nombre de producto a la API Django DRF
     @GetMapping("/api_search")
     public String enviarProducto(@PathVariable String item) {
-        return djangoService.enviarNombreProducto(item);
+        return djangoService.enviarNombreProducto(item, FarmaEnum.FARMACIASAS);
     }
     
     // Endpoint para verificar la existencia de un producto por nombre en Farmaciasas
