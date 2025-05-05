@@ -1,15 +1,14 @@
 package com.example.DemoServiceSpring.views;
 
+
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.component.UI;
 
-@Route("")
 @PageTitle("DemoServiceSpring")
 @Menu(title= "Inicio", icon = "la la-home", order = 1)
 public class HomeView extends VerticalLayout {

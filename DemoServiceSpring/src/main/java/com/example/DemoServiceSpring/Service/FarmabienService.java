@@ -3,18 +3,22 @@ package com.example.DemoServiceSpring.Service;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.DemoServiceSpring.Model.ScrapyWebFarmabien;
 import com.example.DemoServiceSpring.Repository.FarmabienRepository;
 
+@Service
 public class FarmabienService {
-    @Autowired
-    private FarmabienRepository farmabienRepository;
 
-    final private DjangoService djangoService;
+    // Controlador para la logica de negocio de Farmabien
+    // Inyeccion de dependencias de FarmabienController
     
-    public FarmabienService(DjangoService djangoService) {
+    private final FarmabienRepository farmabienRepository;
+    private final DjangoService djangoService;
+    
+    public FarmabienService(DjangoService djangoService, FarmabienRepository farmabienRepository) {
+        this.farmabienRepository = farmabienRepository;
         this.djangoService = djangoService;
     }
     

@@ -2,7 +2,6 @@ package com.example.DemoServiceSpring.Controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,14 +17,14 @@ import com.example.DemoServiceSpring.Service.FarmatodoService;
 @RequestMapping("/api/farmatodo")
 public class FarmatodoController {
 
-    // Controlador para consultar la existencia del producto en la base de datos
+    // Controlador para la logica de negocio de Farmatodo
 
-    @Autowired
-    private FarmatodoService farmatodoService;
-
+    // Inyeccion de dependencias de FarmatodoService
+    private final FarmatodoService farmatodoService;
     private final DjangoService djangoService;
 
-    public FarmatodoController(DjangoService djangoService) {
+    public FarmatodoController(DjangoService djangoService, FarmatodoService farmatodoService) {
+        this.farmatodoService = farmatodoService;
         this.djangoService = djangoService;
     }
 

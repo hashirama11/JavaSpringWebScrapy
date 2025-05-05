@@ -4,32 +4,48 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.DemoServiceSpring.Model.ScrapyWebLocatel;
+import com.example.DemoServiceSpring.Service.DjangoService;
 import com.example.DemoServiceSpring.Service.LocatelService;
 
+@RestController
+@RequestMapping("/api/locatel")
 public class LocatelController {
-    // Inyectar el servicio de LocatelService
-    private final LocatelService locatelService;
+
+    // Controlador para la logica de negocio de Locatel
+    // Inyeccion de dependencias de LocatelService
     
-    public LocatelController(LocatelService locatelService) {
+    private final LocatelService locatelService;
+    private final DjangoService djangoService;
+    
+    public LocatelController(DjangoService djangoService, LocatelService locatelService) {
         this.locatelService = locatelService;
+        this.djangoService = djangoService;
     }
     
     // Endpoint para obtener todos los productos de Locatel
-    @GetMapping("/locatel")
+    @GetMapping("/product")
     public List<ScrapyWebLocatel> getProductos() {
         return locatelService.getProductos();
     }
     
     // Endpoint para buscar productos por nombre en Locatel
-    @GetMapping("/locatel/buscar/{nombre}")
+    @GetMapping("/search")
     public List<ScrapyWebLocatel> buscarPorNombre(@PathVariable String nombre) {
         return locatelService.buscarPorNombre(nombre);
     }
+
+    // Endpoint para enviar nombre de producto a la API Django DRF
+    @GetMapping("/api_search")
+    public String enviarProducto(@PathVariable String item) {
+        return djangoService.enviarNombreProducto(item);
+    }
     
     // Endpoint para verificar la existencia de un producto por nombre en Locatel
-    @GetMapping("/locatel/existencia/{nombre}")
+    @GetMapping("/existencia")
     public List<ScrapyWebLocatel> existenciaPorNombre(@PathVariable String nombre) {
         return locatelService.existenciaPorNombre(nombre);
     }

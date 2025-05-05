@@ -3,28 +3,30 @@ package com.example.DemoServiceSpring.Service;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.DemoServiceSpring.Model.ScrapyWebLocatel;
 import com.example.DemoServiceSpring.Repository.LocatelRepository;
 
+@Service
 public class LocatelService {
     
-    @Autowired
-    private LocatelRepository locatelRepository;
-
-    final private DjangoService djangoService;
     
-    public LocatelService(DjangoService djangoService) {
+    private final LocatelRepository locatelRepository;
+    private final DjangoService djangoService;
+    
+    public LocatelService(DjangoService djangoService, LocatelRepository locatelRepository) {
+        this.locatelRepository = locatelRepository;
         this.djangoService = djangoService;
     }
     
     public List<ScrapyWebLocatel> getProductos(){
-        // Llamar FarmatodoRepository para buscar el producto por el nombre
+        // Llamar LocatelRepository para buscar el producto por el nombre
         return locatelRepository.findAll();
     }
 
     public List<ScrapyWebLocatel> buscarPorNombre(String nombre) {
-        // Llamar FarmatodoRepository para buscar el producto por semejanza de nombre en la base de datos
+        // Llamar LocatelRepository para buscar el producto por semejanza de nombre en la base de datos
         return locatelRepository.findByNombreContaining(nombre);
     }
 

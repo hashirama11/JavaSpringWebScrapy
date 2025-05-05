@@ -11,8 +11,9 @@ import com.vaadin.flow.router.Route;
 
 
 
-@Route("search-product")
+@Route(value = "search-product")
 @PageTitle("Buscar producto")
+
 public class SearchProductFarmatodoView extends Composite<FormLayout> {
 
     public SearchProductFarmatodoView(FarmatodoService farmatodoService) {

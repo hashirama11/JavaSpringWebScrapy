@@ -3,7 +3,6 @@ package com.example.DemoServiceSpring.Service;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.DemoServiceSpring.Model.ScrapyWebFarmatodo;
@@ -13,12 +12,13 @@ import com.example.DemoServiceSpring.Repository.FarmatodoRepository;
 @Service
 public class FarmatodoService {
 
-    @Autowired
-    private FarmatodoRepository farmatodoRepository;
+    
+    private final FarmatodoRepository farmatodoRepository;
 
     final private DjangoService djangoService;
     
-    public FarmatodoService(DjangoService djangoService) {
+    public FarmatodoService(DjangoService djangoService, FarmatodoRepository farmatodoRepository) {
+        this.farmatodoRepository = farmatodoRepository;
         this.djangoService = djangoService;
     }
     
