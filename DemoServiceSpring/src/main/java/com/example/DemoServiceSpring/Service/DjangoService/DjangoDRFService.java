@@ -24,4 +24,4 @@ public class DjangoDRFService {
         return restTemplate.getForObject(url, String.class);
     }
     
-}git 
+}
