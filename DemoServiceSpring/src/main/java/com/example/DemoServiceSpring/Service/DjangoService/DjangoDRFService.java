@@ -20,8 +20,8 @@ public class DjangoDRFService {
 
     public String enviarNombreProducto(String item, FarmaEnum farmEnum) {
         // URL de la API Django DRF
-        String url = "http://127.0.0.1:8000/api/" +  farmEnum.getValue() + "/search/" + item; // URL corregida
+        String url = "http://127.0.0.1:8000/" + farmEnum.getValue() + "/" + "api/" + farmEnum.getValue() + "/search/" + item + "/"; // URL corregida
         return restTemplate.getForObject(url, String.class);
     }
     
-}
+}git 
